@@ -13,7 +13,8 @@
     "verify": "bash scripts/verify-examples.sh",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "deploy:tencent": "bash scripts/deploy-tencent.sh"
   },
   "dependencies": {
     "@langchain/classic": "^1.0.0",
