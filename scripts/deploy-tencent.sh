@@ -20,6 +20,18 @@ fi
 
 TCB="npx --yes -p @cloudbase/cli tcb"
 
+# 先检查登录态，避免卡在设备授权等待上（tcb 未登录时会挂起等待浏览器授权）
+if ! $TCB env list >/dev/null 2>&1; then
+  echo "❌ 尚未登录 CloudBase，无法发布。"
+  echo ""
+  echo "请先执行一次登录（需要你在浏览器里授权一次）："
+  echo "  npx --yes -p @cloudbase/cli tcb login"
+  echo ""
+  echo "或使用环境 API Key，无需浏览器："
+  echo "  npx --yes -p @cloudbase/cli tcb login --cloudbase-api-key <环境APIKey> -e <环境ID>"
+  exit 1
+fi
+
 echo "▶ [1/3] 类型检查"
 npm run typecheck
 
