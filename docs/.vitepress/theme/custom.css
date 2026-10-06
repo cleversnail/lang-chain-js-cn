@@ -1,0 +1,128 @@
+/* ============================================================
+   浅天蓝主题 —— 参考 vuejs.org 的简约风格
+   主色：sky blue（#38bdf8 系），只调整配色与少许留白，不加多余装饰
+   ============================================================ */
+
+:root {
+  /* ---- 品牌色：浅天蓝 ---- */
+  --vp-c-brand-1: #0ea5e9;  /* 主色（链接、激活态） */
+  --vp-c-brand-2: #38bdf8;  /* 悬停 */
+  --vp-c-brand-3: #7dd3fc;  /* 浅色装饰、描边 */
+  --vp-c-brand-soft: rgba(56, 189, 248, 0.14);
+
+  /* ---- 实心按钮 ---- */
+  --vp-button-brand-border: transparent;
+  --vp-button-brand-text: #ffffff;
+  --vp-button-brand-bg: #0ea5e9;
+  --vp-button-brand-hover-border: transparent;
+  --vp-button-brand-hover-text: #ffffff;
+  --vp-button-brand-hover-bg: #0284c7;
+  --vp-button-brand-active-border: transparent;
+  --vp-button-brand-active-text: #ffffff;
+  --vp-button-brand-active-bg: #0284c7;
+
+  /* ---- 次要按钮（描边跟随主色） ---- */
+  --vp-button-alt-border: var(--vp-c-brand-3);
+  --vp-button-alt-text: var(--vp-c-brand-1);
+  --vp-button-alt-hover-border: var(--vp-c-brand-2);
+  --vp-button-alt-hover-text: var(--vp-c-brand-1);
+  --vp-button-alt-hover-bg: var(--vp-c-brand-soft);
+
+  /* ---- 首页 hero：很淡的天蓝渐变 ---- */
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(120deg, #0ea5e9 30%, #7dd3fc);
+  --vp-home-hero-image-background-image: linear-gradient(
+    -45deg,
+    rgba(125, 211, 252, 0.45) 50%,
+    rgba(186, 230, 253, 0.45) 50%
+  );
+  --vp-home-hero-image-filter: blur(44px);
+
+  /* ---- 功能卡片底色 ---- */
+  --vp-c-bg-soft: #f8fafc;
+}
+
+.dark {
+  --vp-c-brand-1: #7dd3fc;
+  --vp-c-brand-2: #38bdf8;
+  --vp-c-brand-3: #0ea5e9;
+  --vp-c-brand-soft: rgba(56, 189, 248, 0.18);
+  --vp-c-bg-soft: #1b2430;
+
+  --vp-home-hero-name-background: linear-gradient(120deg, #7dd3fc 30%, #0ea5e9);
+  --vp-home-hero-image-background-image: linear-gradient(
+    -45deg,
+    rgba(14, 165, 233, 0.4) 50%,
+    rgba(56, 189, 248, 0.4) 50%
+  );
+}
+
+/* ------------------------------------------------------------
+   首页：让正文与功能卡片左右对齐，减少"两套栅格"的割裂感
+   ------------------------------------------------------------ */
+.VPHome .vp-doc {
+  max-width: 1152px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* 正文段落限制到易读宽度，但块级元素仍与卡片左对齐 */
+.VPHome .vp-doc > * {
+  max-width: 76ch;
+}
+
+.VPHome {
+  padding-bottom: 40px;
+}
+
+.VPHome .vp-doc h2 {
+  margin-top: 40px;
+  padding-top: 0;
+  border-top: none;
+}
+
+/* hero 光晕收敛一点，避免抢主标题 */
+.VPHome .VPHomeHero .image-bg {
+  transform: scale(1.25);
+}
+
+/* ------------------------------------------------------------
+   功能卡片：图标改为主色描边 + 淡蓝底，悬停淡淡光晕
+   ------------------------------------------------------------ */
+.VPFeature {
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.VPFeature:hover {
+  border-color: var(--vp-c-brand-3);
+  box-shadow: 0 4px 18px rgba(56, 189, 248, 0.16);
+}
+
+.VPFeature .icon {
+  background-color: var(--vp-c-brand-soft) !important;
+}
+
+.VPFeature .icon svg {
+  color: var(--vp-c-brand-1);
+  width: 24px;
+  height: 24px;
+}
+
+/* ------------------------------------------------------------
+   侧边栏 / 正文链接
+   ------------------------------------------------------------ */
+.VPSidebarItem.is-active > .item > .link > .text {
+  color: var(--vp-c-brand-1);
+}
+
+.vp-doc a {
+  text-decoration-color: var(--vp-c-brand-3);
+  text-underline-offset: 3px;
+}
+
+/* ------------------------------------------------------------
+   代码块：浅色下用极淡的天蓝背景，与整体呼应
+   ------------------------------------------------------------ */
+:root:not(.dark) .vp-doc div[class*="language-"] {
+  background-color: #f6fafd;
+}

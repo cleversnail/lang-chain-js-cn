@@ -1,0 +1,19 @@
+{
+  "$schema": "https://framework-1258016615.tcloudbaseapp.com/schema/latest.json",
+  "version": "2.0",
+  "envId": "{{env.ENV_ID}}",
+  "framework": {
+    "name": "langchainjs-zh-docs",
+    "plugins": {
+      "client": {
+        "use": "@cloudbase/framework-plugin-website",
+        "inputs": {
+          "buildCommand": "npm run docs:build",
+          "outputPath": "docs/.vitepress/dist",
+          "cloudPath": "/",
+          "ignore": [".git", ".github", "node_modules", "docs/.vitepress/cache"]
+        }
+      }
+    }
+  }
+}

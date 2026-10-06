@@ -1,0 +1,20 @@
+{
+	"name": "my-agent",
+	"version": "1.0.0",
+	"description": "A ReAct agent that can search the internet",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"start": "node --env-file=.env index.ts"
+	},
+	"dependencies": {
+		"@langchain/anthropic": "^1.5.10",
+		"@langchain/google-vertexai": "^2.3.2",
+		"@langchain/openai": "^1.5.13",
+		"langchain": "^1.5.11",
+		"zod": "^4.6.5"
+	},
+	"devDependencies": {
+		"@types/node": "^26.6.4"
+	}
+}

@@ -1,0 +1,36 @@
+{
+  "name": "langchainjs-zh",
+  "version": "1.0.0",
+  "private": true,
+  "description": "《LangChain.js 中文入门电子书》—— 基于 microsoft/langchainjs-for-beginners 整理，每章含中文讲解与可运行代码",
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "start": "tsx",
+    "typecheck": "tsc --noEmit",
+    "verify": "bash scripts/verify-examples.sh",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "dependencies": {
+    "@langchain/classic": "^1.0.0",
+    "@langchain/core": "^1.0.0",
+    "@langchain/mcp-adapters": "^1.0.0",
+    "@langchain/openai": "^1.0.0",
+    "@langchain/textsplitters": "^1.0.0",
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "dotenv": "^17.0.0",
+    "langchain": "^1.0.0",
+    "mathjs": "^15.0.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.6.0",
+    "vitepress": "^1.6.4"
+  }
+}
