@@ -3,7 +3,12 @@ node_modules/
 dist/
 *.log
 .DS_Store
+
+# 源仓库镜像（仅供本地对照，不入库）
 .source-reference/
+
+# 本站是他的独立项目，不属于本电子书仓库
+myAgent/
 
 # 站点构建产物与缓存（不要提交）
 docs/.vitepress/dist/
