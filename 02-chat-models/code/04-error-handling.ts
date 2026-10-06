@@ -5,6 +5,7 @@
  * 真实项目里，网络抖动、限流（429）几乎不可避免。
  * LangChain 内置了 withRetry()：指数退避自动重试。
  */
+import { ChatOpenAI } from "@langchain/openai";
 import { createModel } from "../../lib/model.js";
 
 async function main() {
@@ -24,8 +25,13 @@ async function main() {
   console.log("\n" + "=".repeat(72));
   console.log("\n2️⃣  故意用错误的密钥，观察鉴权错误\n");
   try {
-    const bad = createModel();
-    (bad as any).apiKey = "invalid-key-for-demo";
+    // ⚠️ 要点：必须**新建一个模型实例**才能真正用上错误的密钥。
+    //    直接改已有实例的 apiKey 属性是无效的——底层 HTTP 客户端在构造时就已初始化。
+    const bad = new ChatOpenAI({
+      model: process.env.AI_MODEL,
+      apiKey: "invalid-key-for-demo",
+      configuration: { baseURL: process.env.AI_ENDPOINT },
+    });
     await bad.invoke("你好");
     console.log("（意外地成功了）");
   } catch (err: any) {
