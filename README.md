@@ -13,19 +13,26 @@
 
 ---
 
-## 快速开始（3 步）
+## 快速开始（4 步）
 
 ```bash
-# 第 1 步：安装依赖
+# 第 1 步：把本书示例克隆到本地
+git clone https://gitee.com/snail_wn/lang-chain-js-cn.git
+cd lang-chain-js-cn
+
+# 第 2 步：安装依赖
 npm install
 
-# 第 2 步：配置模型（复制模板后填入你的密钥）
+# 第 3 步：配置模型（复制模板后填入你的密钥）
 cp .env.example .env
 #   然后编辑 .env：至少填 AI_API_KEY / AI_ENDPOINT / AI_MODEL
 
-# 第 3 步：跑通第一个例子
+# 第 4 步：跑通第一个例子
 npx tsx 01-introduction/code/01-hello-world.ts
 ```
+
+> 不想用 Git？到 https://gitee.com/snail_wn/lang-chain-js-cn 点「克隆/下载 → 下载 ZIP」，
+> 解压后进入同名目录，从第 2 步开始做即可。
 
 > 只要你的服务商**兼容 OpenAI 接口**（DeepSeek、OpenAI、硅基流动、DashScope、Kimi、Azure……），都能直接用。
 > 换服务商时**只改 `.env`，不动代码**。详细说明见 [第 0 章 · 环境准备](./00-course-setup/README.md)。

@@ -57,10 +57,22 @@ features:
 ## 快速开始
 
 ```bash
+# 1. 克隆本书示例
+git clone https://gitee.com/snail_wn/lang-chain-js-cn.git
+cd lang-chain-js-cn
+
+# 2. 安装依赖
 npm install
-cp .env.example .env      # 填入你的 API Key / 接口地址 / 模型名
+
+# 3. 配置模型（填入你的 API Key / 接口地址 / 模型名）
+cp .env.example .env
+
+# 4. 跑通第一个例子
 npx tsx 01-introduction/code/01-hello-world.ts
 ```
+
+> 不想用 Git？到 [Gitee 仓库](https://gitee.com/snail_wn/lang-chain-js-cn) 点「克隆/下载 → 下载 ZIP」，
+> 解压后从第 2 步开始。
 
 完整说明见 [第 0 章 · 环境准备](/guide/setup)。
 

@@ -6,15 +6,19 @@
 
 - **Node.js ≥ 20**（本电子书在 Node 24 上实测通过）
 - **npm / pnpm / yarn**（任选其一）
-- 一个**兼容 OpenAI 接口**的大模型服务商账号（见第四节）
+- **Git**（用来把本书示例克隆到本地；第四节有安装方法）
+- 一个**兼容 OpenAI 接口**的大模型服务商账号（见第五节）
 - 一个能写代码的编辑器（VS Code 推荐）
 
 检查版本：
 
 ```bash
-node -v   # 期望 v20 以上
+node -v    # 期望 v20 以上
 npm -v
+git --version
 ```
+
+三个都有一个版本号输出，就可以往下走了。
 
 ---
 
@@ -115,9 +119,30 @@ npx tsx hello.ts
 
 ---
 
-## 三、运行本书示例：安装依赖
+## 三、把本书示例克隆到本地
 
-在本书根目录（本文件所在目录的上一级）执行一次即可：
+本书的全部示例代码托管在 Gitee 上。**第一步就是把它克隆下来**：
+
+```bash
+# 克隆仓库
+git clone https://gitee.com/snail_wn/lang-chain-js-cn.git
+
+# 进入项目目录
+cd lang-chain-js-cn
+```
+
+克隆完成后，`lang-chain-js-cn` 这个目录就是**本书根目录**——后面所有命令都在这里执行。
+
+> **不想用 Git？** 打开仓库页面 https://gitee.com/snail_wn/lang-chain-js-cn ，
+> 点右上角「克隆/下载」→「下载 ZIP」，解压后进入同名目录，效果一样。
+
+> **命令还不会用？** 下面「附：Git 极简入门」有 3 条命令的说明。
+
+---
+
+## 四、安装依赖
+
+在**本书根目录**执行一次即可：
 
 ```bash
 npm install
@@ -125,7 +150,7 @@ npm install
 pnpm install
 ```
 
-这一步会把全书所有章节需要的依赖装好。装完的版本大致是：
+这一步会把全书所有章节需要的依赖装好（首次约 1~4 分钟）。装完的版本大致是：
 
 | 包 | 版本 |
 | --- | --- |
@@ -142,7 +167,7 @@ pnpm install
 
 ---
 
-## 四、配置模型（关键步骤）
+## 五、配置模型（关键步骤）
 
 复制环境变量模板：
 
@@ -186,7 +211,7 @@ AI_EMBEDDING_MODEL=BAAI/bge-m3
 
 ---
 
-## 五、运行任意一章的代码
+## 六、运行任意一章的代码
 
 用 `tsx` 直接跑 TypeScript，无需编译：
 
@@ -202,7 +227,7 @@ npm start 01-introduction/code/01-hello-world.ts
 
 ---
 
-## 六、类型检查与一键验证（可选但推荐）
+## 七、类型检查与一键验证（可选但推荐）
 
 想知道自己改的代码有没有类型错误：
 
@@ -218,10 +243,10 @@ npm run verify
 
 ---
 
-## 七、目录结构
+## 八、目录结构
 
 ```
-langChain/
+lang-chain-js-cn/             # 克隆下来的目录名（= 本书根目录）
 ├── README.md                 # 总目录与阅读指南
 ├── GLOSSARY.md               # 中文术语表
 ├── 00-course-setup/          # 本章：环境准备
@@ -235,8 +260,48 @@ langChain/
 ├── 08-agentic-rag-systems/   # 第 8 章：Agentic RAG
 ├── lib/                      # 全书共用的工具（配置、模型工厂、嵌入工厂）
 ├── data/                     # 示例数据（文本、文档知识库）
+├── docs/                     # VitePress 站点源码（就是你现在看的这个网站）
+├── scripts/                  # verify-examples.sh / deploy-tencent.sh 等脚本
 └── .env.example              # 环境变量模板
 ```
+
+---
+
+## 附：Git 极简入门
+
+不会 Git 也没关系，你只需要认识 3 条命令。
+
+**安装 Git**
+
+| 系统 | 安装方式 |
+| --- | --- |
+| macOS | 终端执行 `xcode-select --install`（弹出窗口点安装即可） |
+| Windows | 到 https://git-scm.com/download/win 下载安装 |
+| Linux (Debian/Ubuntu) | `sudo apt install git` |
+
+装完检查：`git --version`
+
+**3 条命令走天下**
+
+```bash
+# 1. 把远程仓库复制到本地（最常用）
+git clone https://gitee.com/snail_wn/lang-chain-js-cn.git
+
+# 2. 进入刚克隆下来的目录
+cd lang-chain-js-cn
+
+# 3. 看看当前状态（改了哪些文件）
+git status
+```
+
+就这三条，足够把本书跑起来。
+
+**几个常见疑问**
+
+- **克隆要密码吗？** 公开仓库不需要，直接克隆即可
+- **克隆到哪了？** 在你执行 `git clone` 时所在的目录下，新建了一个 `lang-chain-js-cn` 文件夹
+- **我想放别的地方？** `git clone <地址> 我想要的目录名`
+- **以后想更新到最新版？** 在项目目录里执行 `git pull`
 
 ---
 
