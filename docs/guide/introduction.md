@@ -192,14 +192,90 @@ npx tsx 01-introduction/code/02-message-types.ts
 在 `.env` 里加一行就能对比两个模型：
 
 ```bash
+# 在 .env 里加上这一行
 AI_MODEL_ALT=另一个模型名
 ```
 
-没配的话，示例会自动改为**对比温度（temperature）**：温度 0 更确定，温度 1 更发散。
+没配 `AI_MODEL_ALT` 时，示例会自动改为**对比温度（temperature）**：温度 0 更确定，温度 1 更发散。
+
+完整代码就在 `code/03-model-comparison.ts`：
+
+```typescript
+import { ChatOpenAI } from "@langchain/openai";
+import "dotenv/config";
+
+// 跑一次调用，打印回复内容与耗时
+async function runOnce(label: string, modelName: string, temperature?: number) {
+  const model = new ChatOpenAI({
+    model: modelName,
+    apiKey: process.env.AI_API_KEY,
+    configuration: { baseURL: process.env.AI_ENDPOINT },
+    ...(temperature !== undefined ? { temperature } : {}),
+  });
+
+  const start = Date.now();
+  const response = await model.invoke("用一句话解释递归。");
+  const cost = Date.now() - start;
+
+  console.log(`\n📊 ${label}`);
+  console.log("-".repeat(60));
+  console.log(`回复：${response.content}`);
+  console.log(`⏱️  用时：${cost}ms`);
+}
+
+async function main() {
+  console.log("🔬 模型 / 参数对比\n");
+
+  const mainModel = process.env.AI_MODEL!;
+  const altModel = process.env.AI_MODEL_ALT;
+
+  if (altModel) {
+    // 配了 AI_MODEL_ALT：对比两个模型
+    await runOnce(`模型 A：${mainModel}`, mainModel);
+    await runOnce(`模型 B：${altModel}`, altModel);
+    console.log("\n💡 观察：不同模型在同一问题上的详略、措辞、速度差异。");
+  } else {
+    // 没配：改为对比 temperature 的效果
+    console.log("（未配置 AI_MODEL_ALT，改为对比 temperature 的效果）");
+    await runOnce(`temperature = 0.0（更确定）`, mainModel, 0.0);
+    await runOnce(`temperature = 1.0（更随机）`, mainModel, 1.0);
+    console.log("\n💡 观察：温度越高，回答越发散、越有创意；温度越低越稳定。");
+    console.log("   想看模型对比？在 .env 加：AI_MODEL_ALT=另一个模型名");
+  }
+}
+
+main().catch(console.error);
+```
+
+运行：
 
 ```bash
 npx tsx 01-introduction/code/03-model-comparison.ts
 ```
+
+预期输出（节选，耗时因网络而异）：
+
+```
+🔬 模型 / 参数对比
+
+（未配置 AI_MODEL_ALT，改为对比 temperature 的效果）
+
+📊 temperature = 0.0（更确定）
+------------------------------------------------------------
+回复：递归是指函数直接或间接调用自身来解决问题的编程技巧。
+⏱️  用时：1420ms
+
+📊 temperature = 1.0（更随机）
+------------------------------------------------------------
+回复：递归就像俄罗斯套娃，一层套一层，直到最小的那个不再打开。
+⏱️  用时：1685ms
+
+💡 观察：温度越高，回答越发散、越有创意；温度越低越稳定。
+   想看模型对比？在 .env 加：AI_MODEL_ALT=另一个模型名
+```
+
+**你会观察到**：温度 0 时两次调用几乎一样，温度 1 时更有变化；
+配了 `AI_MODEL_ALT` 之后，还能直观对比两个模型的详略与速度。
 
 ---
 
