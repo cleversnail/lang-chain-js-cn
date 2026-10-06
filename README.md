@@ -30,6 +30,22 @@ npx tsx 01-introduction/code/01-hello-world.ts
 > 只要你的服务商**兼容 OpenAI 接口**（DeepSeek、OpenAI、硅基流动、DashScope、Kimi、Azure……），都能直接用。
 > 换服务商时**只改 `.env`，不动代码**。详细说明见 [第 0 章 · 环境准备](./00-course-setup/README.md)。
 
+### 📦 想把 LangChain 装进**自己的项目**？
+
+上面 3 步是「跑本书的示例」。如果你是要在**自己的项目**里使用 LangChain，装法是：
+
+```bash
+npm install -S langchain          # npm（-S 即 --save，npm 5+ 已默认）
+pnpm install langchain            # pnpm
+yarn add langchain                # yarn
+```
+
+注意 LangChain v1 是**「一个主包 + 若干按需包」**，通常还要按需装上
+`@langchain/openai`、`zod`、`@langchain/textsplitters` 等。
+
+完整说明（含每个包什么时候需要、如何验证）见
+[第 0 章 · 二、把 LangChain 装进你自己的项目](./00-course-setup/README.md)。
+
 ---
 
 ## 目录

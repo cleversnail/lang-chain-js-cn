@@ -64,6 +64,10 @@ npx tsx 01-introduction/code/01-hello-world.ts
 
 完整说明见 [第 0 章 · 环境准备](/guide/setup)。
 
+> 📦 **想装进自己的项目？** 上面是跑本书示例的方式。若要在自己的项目里用 LangChain：
+> `npm install -S langchain`（或 `pnpm install langchain` / `yarn add langchain`），
+> 并注意 v1 是「主包 + 按需包」结构——详见 [第 0 章第二节](/guide/setup)。
+
 ## 内容来源
 
 本教程内容改编自微软官方开源课程
