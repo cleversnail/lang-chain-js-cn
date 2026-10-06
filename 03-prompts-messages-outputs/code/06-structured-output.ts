@@ -3,9 +3,16 @@
  * 运行：npx tsx 03-prompts-messages-outputs/code/06-structured-output.ts
  *
  * 让模型直接返回"符合 ts 类型"的对象，而不是一段要靠正则去抠的文字。
- * 用 Zod 定义 schema，strict:true 让输出严格贴合。
+ * 用 Zod 定义 schema，再让模型按 schema 产出。
+ *
+ * ⚠️ 重要坑：withStructuredOutput 有三种模式，兼容性差别很大：
+ *   - jsonSchema（默认）    ：很多服务商不支持，会报 "response_format type is unavailable"
+ *   - functionCalling      ：会强制指定 tool_choice，思考型模型（如 deepseek-flash）不支持
+ *   - jsonMode             ：兼容性最好，但**要求提示词里出现 json / JSON 字样**
+ * 本示例用 jsonMode，并在提示词里明确写了「以 JSON 格式返回」。
  */
 import * as z from "zod";
+import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { createModel } from "../../lib/model.js";
 
 async function main() {
@@ -22,11 +29,21 @@ async function main() {
   });
 
   // 让模型直接产出符合 schema 的对象
-  // method: "functionCalling" 兼容性最好（大多数服务商都支持工具调用）；
-  // 若你的服务商支持 json_schema，也可以去掉 method 让它用默认的 jsonSchema 模式。
   const structured = model.withStructuredOutput(PersonSchema, {
-    method: "functionCalling",
+    method: "jsonMode",
   });
+
+  // ⚠️ jsonMode 要求提示词里出现 json / JSON 字样（否则服务商会直接报错）
+  const prompt = ChatPromptTemplate.fromMessages([
+    [
+      "system",
+      "从用户的自述中抽取个人信息，并以 JSON 格式返回。" +
+        "字段名必须严格使用这些英文键：name, age, email, occupation",
+    ],
+    ["human", "{text}"],
+  ]);
+
+  const chain = prompt.pipe(structured);
 
   const inputs = [
     "我叫 Alice Johnson，28 岁，软件工程师，邮箱 alice.j@email.com",
@@ -37,7 +54,7 @@ async function main() {
   for (const text of inputs) {
     console.log("=".repeat(72));
     console.log(`\n输入：${text}\n`);
-    const r = await structured.invoke(text);
+    const r = await chain.invoke({ text });
     console.log("✅ 提取结果（类型安全）：");
     console.log(JSON.stringify(r, null, 2));
     // 直接当对象用，IDE 有补全、编译期有类型检查

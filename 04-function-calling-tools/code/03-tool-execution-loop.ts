@@ -14,11 +14,12 @@ import { createModel } from "../../lib/model.js";
 const weatherTool = tool(
   async (input) => {
     // 模拟一次"查天气"的 API 调用
+    // 注意：键名要和用户提问的语言一致，否则会查不到（这是个常见坑）
     const temps: Record<string, string> = {
-      Seattle: "12°C，多云",
-      Paris: "18°C，晴",
-      Tokyo: "24°C，小雨",
-      London: "14°C，阴",
+      西雅图: "12°C，多云",
+      巴黎: "18°C，晴",
+      东京: "24°C，小雨",
+      伦敦: "14°C，阴",
     };
     return `${input.city} 当前天气：${temps[input.city] ?? "暂无数据"}`;
   },

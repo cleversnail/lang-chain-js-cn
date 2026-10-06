@@ -25,11 +25,17 @@ const search = tool(
       "东京的人口": "约 1400 万",
       "谁发明了 JavaScript": "Brendan Eich",
     };
-    return db[input.query] ?? "没有找到结果";
+    // 容错匹配：模型给的关键词不一定和键名逐字相同
+    const q = input.query.trim();
+    const key =
+      Object.keys(db).find((k) => q.includes(k) || k.includes(q)) ??
+      Object.keys(db).find((k) => q.includes("法国") && k.includes("法国"));
+    return key ? db[key] : `没有找到「${input.query}」的结果`;
   },
   {
     name: "search",
-    description: "查询事实性信息",
+    description:
+      "查询事实性信息。凡是涉及首都、人口、发明者等客观事实的问题，都必须调用此工具查询，不要凭记忆直接回答。",
     schema: z.object({ query: z.string() }),
   }
 );

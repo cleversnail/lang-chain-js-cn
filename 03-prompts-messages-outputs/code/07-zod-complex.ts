@@ -3,6 +3,8 @@
  * 运行：npx tsx 03-prompts-messages-outputs/code/07-zod-complex.ts
  *
  * 演示嵌套对象、数组、多种数据类型——真实的"信息抽取"长这样。
+ *
+ * 注意 withStructuredOutput 的模式选择，见示例 6 的说明（这里用 jsonMode）。
  */
 import * as z from "zod";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
@@ -25,12 +27,18 @@ async function main() {
     isPublic: z.boolean().describe("是否上市"),
   });
 
+  // 同示例 6：用 jsonMode（兼容性最好），且提示词里必须出现 JSON 字样
   const structured = model.withStructuredOutput(CompanySchema, {
-    method: "functionCalling",
+    method: "jsonMode",
   });
 
   const template = ChatPromptTemplate.fromMessages([
-    ["system", "从文本中抽取公司信息。信息缺失时，可依据常识做合理估计。"],
+    [
+      "system",
+      "从文本中抽取公司信息。信息缺失时，可依据常识做合理估计。以 JSON 格式返回。" +
+        "字段名必须严格使用这些英文键：name, founded, headquarters（含 city、country 两个子键），" +
+        "products（字符串数组），employeeCount, isPublic（布尔值）",
+    ],
     ["human", "{text}"],
   ]);
 
