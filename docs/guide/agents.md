@@ -10,6 +10,8 @@
 
 **本章代码**
 
+> 📌 **代码约定**：正文的代码块都尽量保持**可直接运行**（含 import 与模型初始化）。若某段为聚焦概念的**节选**，会明确标注「节选」并指向同名的 `code/` 完整文件。
+
 | 文件 | 内容 |
 | --- | --- |
 | `code/01-create-agent.ts` | 第一个智能体 |
@@ -49,6 +51,10 @@ ReAct = **Rea**soning（推理）+ **Act**ing（行动）。这是一个循环�
 
 ```typescript
 import { createAgent, HumanMessage, tool } from "langchain";
+import { createModel } from "../lib/model.js";
+
+const model = createModel();
+// calculatorTool / weatherTool / searchTool 的定义见 code/02-multi-tool-agent.ts
 
 const agent = createAgent({
   model,
@@ -75,7 +81,13 @@ console.log(last.content);
 ### 多工具自动选择
 
 ```typescript
-const agent = createAgent({ model, tools: [calculator, weather, search] });
+import { createAgent } from "langchain";
+import { createModel } from "../lib/model.js";
+
+const agent = createAgent({
+  model: createModel(),
+  tools: [calculator, weather, search],   // 工具定义见 code/02-multi-tool-agent.ts
+});
 ```
 
 | 提问 | 自动选中的工具 |
@@ -95,6 +107,8 @@ const agent = createAgent({ model, tools: [calculator, weather, search] });
 ### 中间件 1：动态选模型（省成本）
 
 ```typescript
+import { createMiddleware } from "langchain";
+
 const dynamicModelSelection = createMiddleware({
   name: "DynamicModelSelection",
   wrapModelCall: (request, handler) => {
@@ -131,6 +145,7 @@ const toolErrorHandler = createMiddleware({
 ### 组装
 
 ```typescript
+// basicModel / calculatorTool / searchTool / 两个 middleware 均在上文已定义
 const agent = createAgent({
   model: basicModel,
   tools: [calculatorTool, searchTool],
@@ -147,6 +162,10 @@ const agent = createAgent({
 回顾第 2 章的痛点：**对话越长，token 越贵。**
 
 `summarizationMiddleware` 会在历史过长时**自动总结压缩**：
+
+> 📌 **节选**：以下是 `createAgent({ ... })` 里 `middleware` 字段的写法
+> （`model` 来自同一个 `createAgent` 调用）。完整可运行版本见
+> `code/04-summarization-middleware.ts`。
 
 ```typescript
 middleware: [

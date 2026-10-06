@@ -12,6 +12,8 @@
 
 **本章代码**
 
+> 📌 **代码约定**：正文的代码块都尽量保持**可直接运行**（含 import 与模型初始化）。若某段为聚焦概念的**节选**，会明确标注「节选」并指向同名的 `code/` 完整文件。
+
 | 文件 | 内容 |
 | --- | --- |
 | `code/01-traditional-rag.ts` | 传统 RAG（每问必搜） |
@@ -63,6 +65,13 @@ npx tsx 08-agentic-rag-systems/code/01-traditional-rag.ts
 **改动只有一处**：把"检索"从固定步骤，变成一个**工具**。
 
 ```typescript
+import { createAgent, tool } from "langchain";
+import * as z from "zod";
+import { createModel } from "../lib/model.js";
+// store 的构建见 lib/kb.ts 的 buildVectorStore()
+
+const model = createModel();
+
 const retrievalTool = tool(
   async (input) => {
     const results = await store.similaritySearch(input.query, 3);

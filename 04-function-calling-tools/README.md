@@ -11,6 +11,8 @@
 
 **本章代码**
 
+> 📌 **代码约定**：正文的代码块都尽量保持**可直接运行**（含 import 与模型初始化）。若某段为聚焦概念的**节选**，会明确标注「节选」并指向同名的 `code/` 完整文件。
+
 | 文件 | 内容 |
 | --- | --- |
 | `code/01-simple-tool.ts` | 定义第一个工具 |
@@ -59,6 +61,11 @@ const calculatorTool = tool(
 **不会。** 模型只会生成一个"工具调用请求"：
 
 ```typescript
+import { createModel } from "../lib/model.js";
+
+const model = createModel();
+// calculatorTool 的定义见 code/02-tool-calling.ts
+
 const modelWithTools = model.bindTools([calculatorTool]);
 const response = await modelWithTools.invoke("25 * 17 等于几？");
 
@@ -100,6 +107,9 @@ const toolResult = await weatherTool.invoke(weatherTool.schema.parse(call.args))
 
 ### 第 3 步：把结果回传给模型（沟通 Communicating）
 
+> 📌 **节选**：下面只是「第 3 步」的片段（`response1` / `toolResult` / `call` 来自前两步）。
+> 完整可运行版本见 `code/03-tool-execution-loop.ts`。
+
 ```typescript
 const messages = [
   new HumanMessage(query),
@@ -132,6 +142,10 @@ npx tsx 04-function-calling-tools/code/03-tool-execution-loop.ts
 ## 四、多工具自动选择
 
 ```typescript
+import { createModel } from "../lib/model.js";
+
+const model = createModel();
+// calculator / search / weather 三个工具的定义见 code/04-multiple-tools.ts
 const modelWithTools = model.bindTools([calculator, search, weather]);
 ```
 

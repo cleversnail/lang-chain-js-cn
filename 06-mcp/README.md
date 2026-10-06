@@ -10,6 +10,8 @@
 
 **本章代码**
 
+> 📌 **代码约定**：正文的代码块都尽量保持**可直接运行**（含 import 与模型初始化）。若某段为聚焦概念的**节选**，会明确标注「节选」并指向同名的 `code/` 完整文件。
+
 | 文件 | 内容 |
 | --- | --- |
 | `code/01-mcp-http.ts` | 连接远程 MCP 服务器（HTTP） |
@@ -51,6 +53,8 @@
 
 ```typescript
 import { MultiServerMCPClient } from "@langchain/mcp-adapters";
+import { createAgent } from "langchain";
+import { createModel } from "../lib/model.js";
 
 const mcpClient = new MultiServerMCPClient({
   context7: {
@@ -60,7 +64,7 @@ const mcpClient = new MultiServerMCPClient({
 });
 
 const tools = await mcpClient.getTools();   // 拿到标准 LangChain 工具
-const agent = createAgent({ model, tools }); // 直接喂给智能体
+const agent = createAgent({ model: createModel(), tools });  // 直接喂给智能体
 ```
 
 **最妙的一点**：从 MCP 拿到的工具，和你在第 4 章手写的工具**完全等价**，`createAgent()` 一视同仁。

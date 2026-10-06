@@ -10,6 +10,8 @@
 
 **本章代码**
 
+> 📌 **代码约定**：正文的代码块都尽量保持**可直接运行**（含 import 与模型初始化）。若某段为聚焦概念的**节选**，会明确标注「节选」并指向同名的 `code/` 完整文件。
+
 | 文件 | 内容 |
 | --- | --- |
 | `code/01-multi-turn.ts` | 多轮对话：记忆的本质 |
@@ -62,6 +64,11 @@ npx tsx 02-chat-models/code/01-multi-turn.ts
 两者的**总耗时其实差不多**，但流式的**感知速度**快得多，用户体验天差地别。
 
 ```typescript
+import { createModel } from "../lib/model.js";
+
+const model = createModel();
+const prompt = "用两段话解释互联网是如何工作的。";
+
 const stream = await model.stream(prompt);
 for await (const chunk of stream) {
   process.stdout.write(String(chunk.content));   // 逐块写出去
@@ -109,14 +116,23 @@ npx tsx 02-chat-models/code/03-parameters.ts
 真实环境里，**限流（429）和瞬时网络错误是常态**，不是意外。所以：
 
 ```typescript
-// 用 try/catch 兜底
+import { createModel } from "../lib/model.js";
+
+const model = createModel();
+const prompt = "你好";
+
+// 兜底：用 try/catch 捕获异常
 try {
   const res = await model.invoke(prompt);
-} catch (err) { /* 友好提示 */ }
+  console.log(res.content);
+} catch (err) {
+  console.error("调用失败：", err);
+}
 
-// 用内置重试抵御瞬时故障（指数退避）
+// 重试：用内置的指数退避重试抵御瞬时故障
 const robust = model.withRetry({ stopAfterAttempt: 3 });
-await robust.invoke(prompt);
+const res2 = await robust.invoke(prompt);
+console.log(res2.content);
 ```
 
 `withRetry()` 会自动做**指数退避重试**，不需要你写循环。
@@ -151,6 +167,15 @@ npx tsx 02-chat-models/code/04-error-handling.ts
 LangChain v1 会把用量信息挂在返回消息上：
 
 ```typescript
+import { HumanMessage, SystemMessage } from "langchain";
+import { createModel } from "../lib/model.js";
+
+const model = createModel();
+const messages = [
+  new SystemMessage("你是一位简洁的助手。"),
+  new HumanMessage("用一句话介绍你自己。"),
+];
+
 const res = await model.invoke(messages);
 console.log(res.usage_metadata);  // input_tokens / output_tokens / total_tokens
 ```

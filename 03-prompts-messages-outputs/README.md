@@ -10,6 +10,8 @@
 
 **本章代码**
 
+> 📌 **代码约定**：正文的代码块都尽量保持**可直接运行**（含 import 与模型初始化）。若某段为聚焦概念的**节选**，会明确标注「节选」并指向同名的 `code/` 完整文件。
+
 | 文件 | 内容 |
 | --- | --- |
 | `code/01-messages-vs-templates.ts` | 两条路线对比 |
@@ -29,11 +31,15 @@
 ### 路线 A：消息数组（Messages）
 
 ```typescript
+import { createModel } from "../lib/model.js";
+
+const model = createModel();
 const messages = [
   new SystemMessage("你是一位翻译助手。"),
   new HumanMessage("把 'Hello, world!' 翻译成法语"),
 ];
 const res = await model.invoke(messages);
+console.log(res.content);
 ```
 
 - 直接、灵活、完全掌控
@@ -43,12 +49,17 @@ const res = await model.invoke(messages);
 ### 路线 B：提示词模板（Templates）
 
 ```typescript
+import { ChatPromptTemplate } from "@langchain/core/prompts";
+import { createModel } from "../lib/model.js";
+
+const model = createModel();
 const template = ChatPromptTemplate.fromMessages([
   ["system", "你是一位翻译助手。"],
   ["human", "把 '{text}' 翻译成 {language}"],
 ]);
 const chain = template.pipe(model);       // 用 | 接成链
 const res = await chain.invoke({ text: "Hello, world!", language: "法语" });
+console.log(res.content);
 ```
 
 - 带变量 `{text}` `{language}`，**可复用**
@@ -73,6 +84,10 @@ const res = await chain.invoke({ text: "Hello, world!", language: "法语" });
 聊天模型首选。用 `fromMessages` 声明每个角色的内容：
 
 ```typescript
+import { ChatPromptTemplate } from "@langchain/core/prompts";
+import { createModel } from "../lib/model.js";
+
+const model = createModel();
 const template = ChatPromptTemplate.fromMessages([
   ["system", "你是翻译助手，负责把 {input_language} 翻译成 {output_language}。"],
   ["human", "{text}"],
@@ -81,6 +96,7 @@ const chain = template.pipe(model);
 const res = await chain.invoke({
   input_language: "英语", output_language: "法语", text: "你好，你好吗？",
 });
+console.log(res.content);
 ```
 
 ### 字符串模板：`PromptTemplate`
@@ -148,6 +164,11 @@ const concise  = await customerService.partial({ tone: "简洁干脆" });
 用 **Zod 声明你想要的形状**，让模型直接返回类型正确的对象：
 
 ```typescript
+import * as z from "zod";
+import { createModel } from "../lib/model.js";
+
+const model = createModel();
+
 const PersonSchema = z.object({
   name: z.string().describe("姓名"),
   age: z.number().describe("年龄"),
@@ -155,13 +176,17 @@ const PersonSchema = z.object({
   occupation: z.string().describe("职业"),
 });
 
-const structured = model.withStructuredOutput(PersonSchema, { strict: true });
+// 用 functionCalling 方式（兼容性最好；部分服务商不支持默认的 jsonSchema 模式）
+const structured = model.withStructuredOutput(PersonSchema, {
+  method: "functionCalling",
+});
 
 const r = await structured.invoke("我叫 Alice，28 岁，软件工程师，alice@email.com");
 console.log(r.name);   // ← 直接当对象用，有类型、有补全
 ```
 
-`strict: true` 让输出**严格贴合 schema**，最大程度避免格式漂移。
+这里用 `method: "functionCalling"`，让模型通过**工具调用**的方式产出结构化结果，**兼容性最好**——OpenAI、DeepSeek、Kimi 等主流服务商都支持。
+如果你的服务商支持 `json_schema`，也可以去掉 `method`，改用默认的 `jsonSchema` 模式（约束更严格）。
 
 ### 复杂结构也支持
 

@@ -8,6 +8,8 @@
 
 **本章代码**
 
+> 📌 **代码约定**：正文的代码块都尽量保持**可直接运行**（含 import 与模型初始化）。若某段为聚焦概念的**节选**，会明确标注「节选」并指向同名的 `code/` 完整文件。
+
 | 文件 | 内容 |
 | --- | --- |
 | `code/01-hello-world.ts` | 第一次调用 LLM |
@@ -79,19 +81,28 @@
 
 ### 示例 1：Hello World
 
-三步走。先看代码 `code/01-hello-world.ts`：
-
-**第 1 步：导入需要的模块**
+完整代码就在 `code/01-hello-world.ts`，可以直接复制运行。先通读一遍：
 
 ```typescript
 import { ChatOpenAI } from "@langchain/openai";
 import "dotenv/config";   // 自动加载 .env
 
-...configuration: { baseURL: process.env.AI_ENDPOINT } });
+async function main() {
+  // 1. 创建模型实例
+  const model = new ChatOpenAI({
+    model: process.env.AI_MODEL,
+    apiKey: process.env.AI_API_KEY,
+    configuration: { baseURL: process.env.AI_ENDPOINT },
+  });
 
-// 第 3 步：提问并拿到回复
-const response = await model.invoke("用一句话解释 LangChain 是什么。");
-console.log(response.content);
+  // 2. 发起调用（invoke = 调用并等待完整结果）
+  const response = await model.invoke("用一句话解释 LangChain 是什么。");
+
+  // 3. 读取回复内容
+  console.log(response.content);
+}
+
+main().catch(console.error);
 ```
 
 **发生了什么？**
@@ -128,15 +139,31 @@ npx tsx 01-introduction/code/01-hello-world.ts
 
 让 AI 用"给 10 岁小孩讲"的风格解释量子计算——靠的就是 `SystemMessage`。
 
+同样是**完整可运行**的代码：
+
 ```typescript
+import { ChatOpenAI } from "@langchain/openai";
 import { HumanMessage, SystemMessage } from "langchain";
+import "dotenv/config";
 
-const messages = [
-  new SystemMessage("你是一位耐心的老师，擅长用最简单的比喻向 10 岁孩子解释事情。"),
-  new HumanMessage("解释一下量子计算。"),
-];
+async function main() {
+  const model = new ChatOpenAI({
+    model: process.env.AI_MODEL,
+    apiKey: process.env.AI_API_KEY,
+    configuration: { baseURL: process.env.AI_ENDPOINT },
+  });
 
-const response = await model.invoke(messages);
+  // 用角色化的消息数组，而不是一坨字符串
+  const messages = [
+    new SystemMessage("你是一位耐心的老师，擅长用最简单的比喻向 10 岁孩子解释事情。"),
+    new HumanMessage("解释一下量子计算。"),
+  ];
+
+  const response = await model.invoke(messages);
+  console.log(response.content);
+}
+
+main().catch(console.error);
 ```
 
 三种消息：
