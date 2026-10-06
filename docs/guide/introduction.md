@@ -79,6 +79,11 @@
 
 ## 四、动手：你的第一次调用
 
+> ⚠️ **动手前先确认依赖**：本章正文会出现 `import ... from "langchain"`。
+> - 只是**跑本书示例** → 在本书根目录执行过一次 `npm install` 就够了
+> - 要**装进你自己的项目** → 先看 [第 0 章 · 二、把 LangChain 装进你自己的项目](/guide/setup)
+>   （`npm install -S langchain` / `pnpm install langchain` / `yarn add langchain`）
+
 ### 示例 1：Hello World
 
 完整代码就在 `code/01-hello-world.ts`，可以直接复制运行。先通读一遍：
