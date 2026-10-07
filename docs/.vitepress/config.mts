@@ -14,9 +14,12 @@ export default defineConfig({
   // 设为 false = 关闭深色模式；若想保留深色切换，改成 true（跟随系统）。
   appearance: false,
 
-  // 部署在域名根目录时保持 "/"。
-  // 若部署到「子路径」（如 Gitee Pages 的 /仓库名/），需改成 "/仓库名/"。
-  base: "/",
+  // base 取决于部署目标，用环境变量控制，避免不同平台互相打架：
+  //   GitHub Pages 项目站点 = 子路径，构建时自动带上（见 .github/workflows/deploy-pages.yml）
+  //   自有域名 / 腾讯云 CloudBase = 根路径，构建时设 DOCS_BASE=/
+  //
+  // 本地预览：npm run docs:preview 后访问 http://localhost:4173/lang-chain-js-cn/
+  base: process.env.DOCS_BASE ?? "/lang-chain-js-cn/",
 
   cleanUrls: true,
 

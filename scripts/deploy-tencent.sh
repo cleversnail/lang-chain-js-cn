@@ -36,7 +36,8 @@ echo "▶ [1/3] 类型检查"
 npm run typecheck
 
 echo "▶ [2/3] 构建站点"
-npm run docs:build
+# CloudBase 静态托管部署在域名根目录，所以 base 必须是 "/"
+DOCS_BASE=/ npm run docs:build
 
 echo "▶ [3/3] 发布到 CloudBase 环境：$ENV_ID"
 # --verify：发布后校验远端与本地一致
