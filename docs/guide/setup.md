@@ -235,11 +235,17 @@ npm start 01-introduction/code/01-hello-world.ts
 npm run typecheck     # 等价于 tsc --noEmit
 ```
 
-想一次性确认环境正常（会真实调用 API，约 5 分钟）：
+想一次性确认环境正常（会真实调用 API，约 15 分钟）：
 
 ```bash
 npm run verify
 ```
+
+它会逐个跑完全部示例，并给出三级判定：**✅ PASS**（正常）、
+**⚠️ SUSPECT**（没崩但结果不对，比如空回复、工具没被调用）、**❌ FAIL**（真故障）。
+
+> 💡 单看"有没有报错"是不够的——很多问题会让程序**正常退出但结果是错的**。
+> 这个脚本专门检查这种情况。
 
 ---
 
