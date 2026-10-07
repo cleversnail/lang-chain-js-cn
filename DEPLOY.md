@@ -12,6 +12,41 @@ npm run docs:dev        # 开发模式，热更新
 
 ---
 
+# ⓪ 双远端同步规则（重要）
+
+本项目有**两个远端仓库**，内容必须保持同步：
+
+| 远端名 | 平台 | 地址 | 作用 |
+| --- | --- | --- | --- |
+| `origin` | Gitee | https://gitee.com/snail_wn/lang-chain-js-cn | 国内主仓库 |
+| `github` | GitHub | https://github.com/cleversnail/lang-chain-js-cn | 海外 + GitHub Pages 的源 |
+
+**规则：每次提交代码或更新文档，两个远端都要推，不能只推一个。**
+
+已配置成「一条 push 同时发往两边」（只需配置一次）：
+
+```bash
+git remote set-url --push origin https://gitee.com/snail_wn/lang-chain-js-cn.git
+git remote set-url --add --push origin https://github.com/cleversnail/lang-chain-js-cn.git
+```
+
+之后同步两边只要一条命令：
+
+```bash
+git push origin main        # → 同时推 Gitee 和 GitHub
+```
+
+验证配置（`origin` 应显示两行 push）：
+
+```bash
+git remote -v
+```
+
+> - 只想推 GitHub：`git push github main`
+> - `origin` 现在语义是「两边都推」，不再是「只推 Gitee」
+
+---
+
 # ① 发布到 Gitee
 
 已完成。仓库地址：
@@ -49,7 +84,83 @@ Gitee Pages 免费服务自 2024 年起对多数个人用户已关闭（需企�
 
 ---
 
-# ② 部署到腾讯云
+# ② 部署到 GitHub Pages
+
+**线上地址：https://cleversnail.github.io/lang-chain-js-cn/**
+
+## 站点与源码分开（两个分支）
+
+| 分支 | 内容 | 用途 |
+| --- | --- | --- |
+| `main` | 整个项目（章节文档 + 可运行示例 + 站点源码） | 读者看源码 / `git clone` |
+| `gh-pages` | **只有构建好的静态站点** | Pages 从这里发布 |
+
+Pages 设置为「Deploy from a branch → `gh-pages` → `/`」。
+
+所以**部署出去只有文档，不含项目源码**——实测访问站点里的
+`package.json`、`lib/model.ts` 均为 404。
+
+## base 路径（关键，两平台不同）
+
+GitHub Pages 项目站点是**子路径**，`base` 必须是 `/<仓库名>/`：
+
+```bash
+npm run docs:build              # 默认 base = /lang-chain-js-cn/
+```
+
+部署到根路径（自有域名 / 腾讯云 CloudBase）时：
+
+```bash
+DOCS_BASE=/ npm run docs:build  # base = /
+```
+
+## 更新发布流程
+
+```bash
+# 1. 构建（默认子路径，适配 GitHub Pages）
+npm run docs:build
+
+# 2. 把产物铺到 gh-pages 分支
+#    用独立 worktree，避免污染主工作区（dist 在 .gitignore 里，不能直接切分支）
+cp -R docs/.vitepress/dist /tmp/ghp-dist
+git worktree add -f /tmp/ghp-tree gh-pages
+cd /tmp/ghp-tree
+git rm -rq --ignore-unmatch .      # 清掉旧产物（含哈希名已变的旧资源）
+cp -R /tmp/ghp-dist/. .
+touch .nojekyll                    # 防止 Jekyll 干扰
+git add -A
+git -c user.name="蜗牛" -c user.email="652501825@qq.com" commit -m "deploy: 重新发布站点"
+git push github gh-pages
+cd -
+git worktree remove /tmp/ghp-tree --force && rm -rf /tmp/ghp-dist
+
+# 3. 触发一次 Pages 构建（推送 gh-pages 有时不会自动触发）
+gh api -X POST repos/cleversnail/lang-chain-js-cn/pages/builds
+
+# 4. 源码也同步到两个远端
+git push origin main
+```
+
+## 首次配置（已完成，备查）
+
+```bash
+# 启用 Pages，来源 = gh-pages 分支
+gh api -X PUT repos/cleversnail/lang-chain-js-cn/pages \
+  -f build_type=legacy -f "source[branch]=gh-pages" -f "source[path]=/"
+```
+
+## 已知问题
+
+- **GitHub Actions 跑不起来**：工作流失败，作业从未分配到 runner
+  （`runner_name` 为空、`steps` 为空、4 秒就结束）。Actions 设置本身正常
+  （公开仓库、已启用、非新账号）。真实原因只在网页 UI 显示，暂未排查。
+  → 因此改用 `gh-pages` 分支发布，**完全不依赖 Actions**。
+- **网络**：本机 `github.com`（git/网页）与 `api.github.com`、`codeload.github.com`、
+  `*.github.io` 均可达（走本机代理，DNS 返回 `198.18.0.x` 假 IP 属正常现象）。
+
+---
+
+# ③ 部署到腾讯云
 
 ## 环境准备（只需做一次）
 
