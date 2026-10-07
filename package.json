@@ -14,7 +14,8 @@
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "deploy:tencent": "bash scripts/deploy-tencent.sh"
+    "deploy:tencent": "bash scripts/deploy-tencent.sh",
+    "deploy:github": "bash scripts/deploy-github.sh"
   },
   "dependencies": {
     "@langchain/classic": "^1.0.0",
