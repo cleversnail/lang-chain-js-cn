@@ -57,8 +57,9 @@ features:
 ## 快速开始
 
 ```bash
-# 1. 克隆本书示例
-git clone https://gitee.com/snail_wn/lang-chain-js-cn.git
+# 1. 克隆本书源码（两个地址选一个，内容同步）
+git clone https://github.com/cleversnail/lang-chain-js-cn.git   # GitHub
+# git clone https://gitee.com/snail_wn/lang-chain-js-cn.git     # Gitee（国内更稳）
 cd lang-chain-js-cn
 
 # 2. 安装依赖
@@ -71,8 +72,12 @@ cp .env.example .env
 npx tsx 01-introduction/code/01-hello-world.ts
 ```
 
-> 不想用 Git？到 [Gitee 仓库](https://gitee.com/snail_wn/lang-chain-js-cn) 点「克隆/下载 → 下载 ZIP」，
-> 解压后从第 2 步开始。
+> 不想用 Git？打开 [GitHub 仓库](https://github.com/cleversnail/lang-chain-js-cn) 或
+> [Gitee 仓库](https://gitee.com/snail_wn/lang-chain-js-cn)，
+> 点「Code / 克隆下载 → Download ZIP / 下载 ZIP」，解压后从第 2 步开始。
+
+**源码地址**：[GitHub](https://github.com/cleversnail/lang-chain-js-cn) ｜
+[Gitee](https://gitee.com/snail_wn/lang-chain-js-cn)（两处同步，选能打开的）
 
 完整说明见 [第 0 章 · 环境准备](/guide/setup)。
 

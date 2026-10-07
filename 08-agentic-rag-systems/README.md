@@ -615,6 +615,19 @@ RAG（Retrieval Augmented Generation，检索增强生成）把文档检索和�
 
 ---
 
+---
+
+## 📂 本章完整代码
+
+学到哪一章想直接翻代码，可以点这两个入口（两处内容同步，选能打开的）：
+
+- **GitHub**：https://github.com/cleversnail/lang-chain-js-cn/tree/main/08-agentic-rag-systems/code
+- **Gitee**：https://gitee.com/snail_wn/lang-chain-js-cn/tree/main/08-agentic-rag-systems/code
+
+章节说明在本页，可直接运行的 `.ts` 文件在上面这两个目录里。
+
+---
+
 ## 🗺️ 导航
 
 [← 上一章：文档、嵌入与语义搜索](../07-documents-embeddings-semantic-search/README.md) ｜ [返回总目录](../README.md) ｜ [回到术语表](../GLOSSARY.md)

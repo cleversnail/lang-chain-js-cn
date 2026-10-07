@@ -40,6 +40,7 @@ export default defineConfig({
       { text: "首页", link: "/" },
       { text: "教程", link: "/guide/setup", activeMatch: "/guide/" },
       { text: "术语表", link: "/glossary" },
+      { text: "源码", link: "https://github.com/cleversnail/lang-chain-js-cn" },
     ],
 
     sidebar: {

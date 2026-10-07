@@ -333,6 +333,19 @@ const creative = createModel({ temperature: 1.0 });  // 覆盖参数
 
 ---
 
+---
+
+## 📂 本章完整代码
+
+学到哪一章想直接翻代码，可以点这两个入口（两处内容同步，选能打开的）：
+
+- **GitHub**：https://github.com/cleversnail/lang-chain-js-cn/tree/main/01-introduction/code
+- **Gitee**：https://gitee.com/snail_wn/lang-chain-js-cn/tree/main/01-introduction/code
+
+章节说明在本页，可直接运行的 `.ts` 文件在上面这两个目录里。
+
+---
+
 ## 🗺️ 导航
 
 [← 上一章：环境准备](/guide/setup) ｜ [返回总目录](/) ｜ [下一章：对话模型与基础交互 →](/guide/chat-models)

@@ -495,6 +495,19 @@ npx tsx 06-mcp/servers/stdio-calculator-server.ts
 
 ---
 
+---
+
+## 📂 本章完整代码
+
+学到哪一章想直接翻代码，可以点这两个入口（两处内容同步，选能打开的）：
+
+- **GitHub**：https://github.com/cleversnail/lang-chain-js-cn/tree/main/06-mcp/code
+- **Gitee**：https://gitee.com/snail_wn/lang-chain-js-cn/tree/main/06-mcp/code
+
+章节说明在本页，可直接运行的 `.ts` 文件在上面这两个目录里。
+
+---
+
 ## 🗺️ 导航
 
 [← 上一章：智能体](../05-agents/README.md) ｜ [返回总目录](../README.md) ｜ [下一章：文档、嵌入与语义搜索 →](../07-documents-embeddings-semantic-search/README.md)

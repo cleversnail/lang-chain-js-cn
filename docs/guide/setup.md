@@ -121,20 +121,29 @@ npx tsx hello.ts
 
 ## 三、把本书示例克隆到本地
 
-本书的全部示例代码托管在 Gitee 上。**第一步就是把它克隆下来**：
+本书的全部源码（章节文档 + 可运行示例）同时托管在两个地方，**内容同步，选你能打开的那个**：
 
 ```bash
-# 克隆仓库
-git clone https://gitee.com/snail_wn/lang-chain-js-cn.git
+# 方案 A：GitHub（海外访问更快 / 有代理时首选）
+git clone https://github.com/cleversnail/lang-chain-js-cn.git
+cd lang-chain-js-cn
 
-# 进入项目目录
+# 方案 B：Gitee（国内直连更稳，无需代理）
+git clone https://gitee.com/snail_wn/lang-chain-js-cn.git
 cd lang-chain-js-cn
 ```
 
-克隆完成后，`lang-chain-js-cn` 这个目录就是**本书根目录**——后面所有命令都在这里执行。
+两个仓库内容一致，克隆任意一个即可。克隆出的 `lang-chain-js-cn` 目录就是**本书根目录**——
+后面所有命令都在这里执行。
 
-> **不想用 Git？** 打开仓库页面 https://gitee.com/snail_wn/lang-chain-js-cn ，
-> 点右上角「克隆/下载」→「下载 ZIP」，解压后进入同名目录，效果一样。
+> **该选哪个？**
+> - 国内网络、不想折腾 → 用 **Gitee**（方案 B）
+> - 海外、或已配好代理 → 用 **GitHub**（方案 A）
+>
+> **不想用 Git？** 打开任一仓库页面
+> （[GitHub](https://github.com/cleversnail/lang-chain-js-cn) ｜
+> [Gitee](https://gitee.com/snail_wn/lang-chain-js-cn)），
+> 点「Code / 克隆下载」→「Download ZIP / 下载 ZIP」，解压后进入同名目录，效果一样。
 
 > **命令还不会用？** 下面「附：Git 极简入门」有 3 条命令的说明。
 
@@ -290,8 +299,9 @@ lang-chain-js-cn/             # 克隆下来的目录名（= 本书根目录）
 **3 条命令走天下**
 
 ```bash
-# 1. 把远程仓库复制到本地（最常用）
-git clone https://gitee.com/snail_wn/lang-chain-js-cn.git
+# 1. 把远程仓库复制到本地（最常用）—— 下面两个地址选一个
+git clone https://github.com/cleversnail/lang-chain-js-cn.git   # GitHub
+git clone https://gitee.com/snail_wn/lang-chain-js-cn.git       # Gitee（国内更稳）
 
 # 2. 进入刚克隆下来的目录
 cd lang-chain-js-cn

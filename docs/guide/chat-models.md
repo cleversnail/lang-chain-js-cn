@@ -584,6 +584,19 @@ npx tsx 02-chat-models/code/05-token-usage.ts
 
 ---
 
+---
+
+## 📂 本章完整代码
+
+学到哪一章想直接翻代码，可以点这两个入口（两处内容同步，选能打开的）：
+
+- **GitHub**：https://github.com/cleversnail/lang-chain-js-cn/tree/main/02-chat-models/code
+- **Gitee**：https://gitee.com/snail_wn/lang-chain-js-cn/tree/main/02-chat-models/code
+
+章节说明在本页，可直接运行的 `.ts` 文件在上面这两个目录里。
+
+---
+
 ## 🗺️ 导航
 
 [← 上一章：入门](/guide/introduction) ｜ [返回总目录](/) ｜ [下一章：提示词、消息与结构化输出 →](/guide/prompts)

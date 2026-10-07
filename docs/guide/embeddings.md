@@ -747,6 +747,19 @@ Document[]（小块，metadata 自动继承）
 
 ---
 
+---
+
+## 📂 本章完整代码
+
+学到哪一章想直接翻代码，可以点这两个入口（两处内容同步，选能打开的）：
+
+- **GitHub**：https://github.com/cleversnail/lang-chain-js-cn/tree/main/07-documents-embeddings-semantic-search/code
+- **Gitee**：https://gitee.com/snail_wn/lang-chain-js-cn/tree/main/07-documents-embeddings-semantic-search/code
+
+章节说明在本页，可直接运行的 `.ts` 文件在上面这两个目录里。
+
+---
+
 ## 🗺️ 导航
 
 [← 上一章：MCP](/guide/mcp) ｜ [返回总目录](/) ｜ [下一章：Agentic RAG →](/guide/agentic-rag)

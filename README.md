@@ -16,8 +16,9 @@
 ## 快速开始（4 步）
 
 ```bash
-# 第 1 步：把本书示例克隆到本地
-git clone https://gitee.com/snail_wn/lang-chain-js-cn.git
+# 第 1 步：把本书源码克隆到本地（两个地址选一个，内容同步）
+git clone https://github.com/cleversnail/lang-chain-js-cn.git   # GitHub
+# git clone https://gitee.com/snail_wn/lang-chain-js-cn.git     # Gitee（国内更稳）
 cd lang-chain-js-cn
 
 # 第 2 步：安装依赖
@@ -31,7 +32,8 @@ cp .env.example .env
 npx tsx 01-introduction/code/01-hello-world.ts
 ```
 
-> 不想用 Git？到 https://gitee.com/snail_wn/lang-chain-js-cn 点「克隆/下载 → 下载 ZIP」，
+> 不想用 Git？打开 [GitHub 仓库](https://github.com/cleversnail/lang-chain-js-cn) 或
+> [Gitee 仓库](https://gitee.com/snail_wn/lang-chain-js-cn)，点「Code / 克隆下载 → Download ZIP / 下载 ZIP」，
 > 解压后进入同名目录，从第 2 步开始做即可。
 
 > 只要你的服务商**兼容 OpenAI 接口**（DeepSeek、OpenAI、硅基流动、DashScope、Kimi、Azure……），都能直接用。
